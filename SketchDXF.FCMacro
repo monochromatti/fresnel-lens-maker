@@ -1,0 +1,52 @@
+import FreeCAD
+import FreeCADGui
+import Part
+import Draft
+from PySide import QtGui
+
+def sket_from_dxf():
+    # Prompt the user to select the DXF file
+    dxf_file_path, _ = QtGui.QFileDialog.getOpenFileName(
+        caption="Select DXF File",
+        filter="DXF Files (*.dxf);;All Files (*)"
+    )
+    
+    # If the user cancels the dialog, exit the function
+    if not dxf_file_path:
+        return
+
+    # Create a new document
+    doc = FreeCAD.newDocument()
+
+    # Explicitly set the active document
+    FreeCAD.setActiveDocument(doc.Name)
+    FreeCAD.ActiveDocument = doc
+    FreeCADGui.ActiveDocument = FreeCADGui.getDocument(doc.Name)
+
+    # Import the DXF into the document
+    import importDXF
+    importDXF.insert(dxf_file_path, doc.Name)
+
+    # Convert Draft objects to Sketch
+    shapes = [obj for obj in doc.Objects if hasattr(obj, "Shape")]
+    
+    if shapes:
+        sketch = Draft.makeSketch(shapes, autoconstraints=True)
+        if sketch:
+
+
+            # Create a body and add the sketch to it
+            body = doc.addObject('PartDesign::Body', 'Body')
+            body.addObject(sketch)
+            
+            # Delete the original shapes
+            for shape in shapes:
+                doc.removeObject(shape.Name)
+
+        else:
+            print("Failed to create a valid sketch from the imported DXF shapes.")
+    else:
+        print("No valid shapes found in the imported DXF.")
+
+# Execute the function
+sket_from_dxf()
