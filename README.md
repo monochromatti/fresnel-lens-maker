@@ -11,3 +11,5 @@ Dependencies
    - A terrific open-source parametric 3D modelling software.
  - ezdxf
    - A Python package for programmatic definition of DXF files.
+
+![Lens profile](lens.png)
