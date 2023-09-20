@@ -1,5 +1,7 @@
 # Fresnel-lens maker
 
+![Lens profile](lens.png)
+
 This project contains two parts:
 
   1. A script that generates the DXF profile of a Fresnel plano-convex lens, assuming a known refractive index and diameter.
@@ -11,5 +13,3 @@ Dependencies
    - A terrific open-source parametric 3D modelling software.
  - ezdxf
    - A Python package for programmatic definition of DXF files.
-
-![Lens profile](lens.png)
